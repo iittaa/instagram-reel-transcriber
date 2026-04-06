@@ -1,4 +1,4 @@
-const API_URL = "";
+const API_URL = "https://instagram-reel-transcriber-ezcp.onrender.com";
 
 const form = document.getElementById("transcribe-form");
 const urlInput = document.getElementById("url-input");
