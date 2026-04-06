@@ -2,6 +2,10 @@
 
 InstagramリールのURLを貼り付けるだけで、音声を日本語テキストに自動で文字起こしするWebアプリケーションです。Groq APIのWhisper large-v3モデルを使用して高速かつ高精度な文字起こしを実現します。
 
+## デプロイ先
+
+[https://instagram-reel-transcriber-ezcp.onrender.com](https://instagram-reel-transcriber-ezcp.onrender.com)
+
 ## 主な機能
 
 - InstagramリールのURLを入力するだけで文字起こし
