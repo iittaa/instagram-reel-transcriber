@@ -1,4 +1,4 @@
-const API_URL = "https://your-render-app.onrender.com"; // TODO: デプロイ後にRenderのURLに置き換え
+const API_URL = "";
 
 const form = document.getElementById("transcribe-form");
 const urlInput = document.getElementById("url-input");

@@ -1,9 +1,11 @@
 import os
 import tempfile
 import subprocess
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from groq import Groq
 
@@ -78,7 +80,7 @@ async def transcribe(req: TranscribeRequest):
     return {
         "text": transcription.text,
         "segments": [
-            {"start": s.start, "end": s.end, "text": s.text}
+            {"start": s["start"], "end": s["end"], "text": s["text"]}
             for s in (transcription.segments or [])
         ],
     }
@@ -87,3 +89,9 @@ async def transcribe(req: TranscribeRequest):
 @app.get("/health")
 async def health():
     return {"status": "ok"}
+
+
+# Serve frontend static files
+frontend_dir = Path(__file__).resolve().parent.parent / "frontend"
+if frontend_dir.exists():
+    app.mount("/", StaticFiles(directory=str(frontend_dir), html=True), name="frontend")
