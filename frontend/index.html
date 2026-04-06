@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>リール文字起こし - Instagram Reel Transcriber</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>リール文字起こし</h1>
+            <p class="subtitle">InstagramリールのURLを貼り付けるだけで、音声をテキストに変換します</p>
+        </header>
+
+        <main>
+            <form id="transcribe-form">
+                <div class="input-group">
+                    <input
+                        type="url"
+                        id="url-input"
+                        placeholder="https://www.instagram.com/reel/..."
+                        required
+                    >
+                    <button type="submit" id="submit-btn">
+                        <span class="btn-text">文字起こし</span>
+                        <span class="btn-loading" hidden>
+                            <span class="spinner"></span>処理中...
+                        </span>
+                    </button>
+                </div>
+            </form>
+
+            <div id="error-msg" class="error" hidden></div>
+
+            <div id="result" hidden>
+                <div class="result-header">
+                    <h2>文字起こし結果</h2>
+                    <button id="copy-btn" class="copy-btn">コピー</button>
+                </div>
+                <div id="transcript-text" class="transcript"></div>
+
+                <details id="segments-section">
+                    <summary>タイムスタンプ付き</summary>
+                    <div id="segments-list" class="segments"></div>
+                </details>
+            </div>
+        </main>
+
+        <footer>
+            <p>無料で使える文字起こしツール｜Powered by Whisper</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
