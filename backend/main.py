@@ -83,16 +83,22 @@ async def transcribe(req: TranscribeRequest, _: str = Depends(require_auth)):
     with tempfile.TemporaryDirectory() as tmpdir:
         audio_path = os.path.join(tmpdir, "audio.mp3")
 
+        # Build yt-dlp command, adding --cookies if a cookies file is configured
+        ytdlp_cmd = [
+            "yt-dlp",
+            "--no-check-certificates",
+            "-x",
+            "--audio-format", "mp3",
+            "-o", audio_path,
+        ]
+        cookies_path = os.environ.get("INSTAGRAM_COOKIES_PATH")
+        if cookies_path and os.path.exists(cookies_path):
+            ytdlp_cmd.extend(["--cookies", cookies_path])
+        ytdlp_cmd.append(url)
+
         # Download audio with yt-dlp
         result = subprocess.run(
-            [
-                "yt-dlp",
-                "--no-check-certificates",
-                "-x",
-                "--audio-format", "mp3",
-                "-o", audio_path,
-                url,
-            ],
+            ytdlp_cmd,
             capture_output=True,
             text=True,
             timeout=60,
