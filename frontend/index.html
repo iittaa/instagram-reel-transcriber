@@ -7,50 +7,105 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
+    <!-- Login Screen -->
+    <div class="container login-container" id="login-screen">
         <header>
             <h1>リール文字起こし</h1>
+            <p class="subtitle">ログインしてください</p>
+        </header>
+        <section class="card login-card">
+            <form id="login-form">
+                <label for="password-input" class="field-label">パスワード</label>
+                <div class="input-group">
+                    <input
+                        type="password"
+                        id="password-input"
+                        placeholder="パスワードを入力"
+                        required
+                    >
+                    <button type="submit" id="login-btn">ログイン</button>
+                </div>
+            </form>
+            <div id="login-error" class="error" hidden></div>
+        </section>
+    </div>
+
+    <!-- Main App Screen -->
+    <div class="container" id="app-screen" hidden>
+        <nav class="topbar">
+            <div class="brand">
+                <h1>リール文字起こし</h1>
+            </div>
+            <button id="logout-btn" class="logout-btn" type="button">
+                <span class="logout-icon">⏻</span>
+                <span>ログアウト</span>
+            </button>
+        </nav>
+
+        <header>
             <p class="subtitle">InstagramリールのURLを貼り付けるだけで、音声をテキストに変換します</p>
         </header>
 
         <main>
-            <form id="transcribe-form">
-                <div class="input-group">
-                    <input
-                        type="url"
-                        id="url-input"
-                        placeholder="https://www.instagram.com/reel/..."
-                        required
-                    >
-                    <button type="submit" id="submit-btn">
-                        <span class="btn-text">文字起こし</span>
-                        <span class="btn-loading" hidden>
-                            <span class="spinner"></span>処理中...
-                        </span>
-                    </button>
+            <section class="card">
+                <form id="transcribe-form">
+                    <label for="url-input" class="field-label">リールURL</label>
+                    <div class="input-group">
+                        <input
+                            type="url"
+                            id="url-input"
+                            placeholder="https://www.instagram.com/reel/..."
+                            required
+                        >
+                        <button type="submit" id="submit-btn">
+                            <span class="btn-text">文字起こし</span>
+                            <span class="btn-loading" hidden>
+                                <span class="spinner"></span>処理中...
+                            </span>
+                        </button>
+                    </div>
+                </form>
+                <p class="hint">初回はサーバー起動のため最大1分ほどかかることがあります</p>
+            </section>
+
+            <div id="progress" class="progress" hidden>
+                <div class="progress-header">
+                    <span id="progress-stage" class="progress-stage">準備中...</span>
+                    <span id="progress-elapsed" class="progress-elapsed">0秒</span>
                 </div>
-            </form>
+                <div class="progress-bar">
+                    <div id="progress-bar-fill" class="progress-bar-fill"></div>
+                </div>
+                <ul class="progress-steps">
+                    <li id="step-1" class="progress-step">音声をダウンロード</li>
+                    <li id="step-2" class="progress-step">文字起こし</li>
+                    <li id="step-3" class="progress-step">完了処理</li>
+                </ul>
+            </div>
 
             <div id="error-msg" class="error" hidden></div>
 
-            <div id="result" hidden>
+            <section id="result" class="card result-card" hidden>
                 <div class="result-header">
                     <h2>文字起こし結果</h2>
-                    <button id="copy-btn" class="copy-btn">コピー</button>
+                    <button id="copy-btn" class="copy-btn">
+                        <span class="copy-icon">⧉</span>
+                        <span class="copy-label">コピー</span>
+                    </button>
                 </div>
                 <div id="transcript-text" class="transcript"></div>
 
                 <details id="segments-section">
-                    <summary>タイムスタンプ付き</summary>
+                    <summary>タイムスタンプ付きで表示</summary>
                     <div id="segments-list" class="segments"></div>
                 </details>
-            </div>
+            </section>
         </main>
 
         <footer>
             <p>無料で使える文字起こしツール｜Powered by Whisper</p>
         </footer>
-    </div>
+    </div><!-- end app-screen -->
     <script src="script.js"></script>
 </body>
 </html>
