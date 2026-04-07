@@ -99,10 +99,23 @@ async def transcribe(req: TranscribeRequest, _: str = Depends(require_auth)):
         )
 
         if result.returncode != 0:
-            raise HTTPException(
-                status_code=400,
-                detail="動画の取得に失敗しました。URLが正しいか、公開リールかを確認してください。",
-            )
+            stderr = (result.stderr or "").strip()
+            print(f"[yt-dlp error] URL={url}\n{stderr}", flush=True)
+
+            lower = stderr.lower()
+            if "empty media response" in lower or "login" in lower or "rate-limit" in lower or "429" in lower:
+                detail = (
+                    "このリールは取得できませんでした。"
+                    "ログインしないと閲覧できないリール、または非公開アカウントの可能性があります。"
+                    "ブラウザのシークレットウィンドウで開けるか確認してください。"
+                )
+            elif "private" in lower:
+                detail = "非公開アカウントのリールは取得できません。"
+            elif "not found" in lower or "404" in lower:
+                detail = "リールが見つかりませんでした。URLが正しいか確認してください。"
+            else:
+                detail = "動画の取得に失敗しました。URLが正しいか、公開リールかを確認してください。"
+            raise HTTPException(status_code=400, detail=detail)
 
         # Find the actual output file (yt-dlp may append extension)
         actual_path = audio_path
